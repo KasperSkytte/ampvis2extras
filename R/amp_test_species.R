@@ -111,7 +111,7 @@ amp_test_species <- function(data,
   abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum)
   rownames(abund4) <- abund4$Display
   abund4 <- abund4[,-1]
-
+  abund4 <- abund4[,metadata[[1]]]
   groupF <- as.formula(paste("~", group_by, sep=""))
 
 
