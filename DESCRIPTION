@@ -25,6 +25,8 @@ Imports:
   plotly,
   data.table
 Remotes: github::MadsAlbertsen/ampvis2
+BiocViews:
+  DESeq2
 Suggests:
   remotes
 RoxygenNote: 6.0.1
