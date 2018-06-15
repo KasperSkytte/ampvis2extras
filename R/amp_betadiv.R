@@ -1,12 +1,12 @@
 #' Beta-diversity plot
 #'
-#' @param data
-#' @param distmeasure
-#' @param label_by
-#' @param show_values
-#' @param values_size
+#' @param data (\emph{required}) Data list as loaded with \code{amp_load()}.
+#' @param distmeasure Distance measure
+#' @param label_by label
+#' @param show_values \code{TRUE}/\code{FALSE}
+#' @param values_size size
 #'
-#' @return
+#' @return A ggplot2 object.
 #' @export
 #'
 #' @import ggplot2

@@ -8,7 +8,18 @@ amp_betadiv(data, distmeasure = "bray", label_by = NULL,
   show_values = TRUE, values_size = 3)
 }
 \arguments{
-\item{values_size}{}
+\item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
+
+\item{distmeasure}{Distance measure}
+
+\item{label_by}{label}
+
+\item{show_values}{\code{TRUE}/\code{FALSE}}
+
+\item{values_size}{size}
+}
+\value{
+A ggplot2 object.
 }
 \description{
 Beta-diversity plot
