@@ -70,7 +70,8 @@ amp_mergereplicates <- function(data,
         return(floor(.))
       } else
         return(.)
-    }
+    } %>%
+    as.data.frame()
   #make new metadata keeping only the first row of each sample group
   out$metadata <- out$metadata[!duplicated(out$metadata$group),]
   out$metadata[,1] <- colnames(out$abund)
