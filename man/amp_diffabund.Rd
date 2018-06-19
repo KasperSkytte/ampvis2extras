@@ -38,7 +38,7 @@ amp_diffabund(data, group)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible.
+   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -54,7 +54,7 @@ A list with multiple elements:
     \item \code{"plot_MA"}: MA-plot
     \item \code{"plot_MA_plotly"}: Interactive \code{plotly} plot of \code{MA-plot} with custom hover information.
     \item \code{"plot_signif"}: Abundance plot with taxa with the n most significant p-value (below the threshold), where n is set by \code{plot_nshow}.
-    \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information.
+    \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information. 
   }
 }
 \description{
@@ -70,7 +70,7 @@ results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
 #Show plots
 results$plot_signif
-results$plot_MA_plotly
+results$plot_MA
 
 #Or show raw results
 results$Clean_results
