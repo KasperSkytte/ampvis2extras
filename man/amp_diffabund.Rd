@@ -23,8 +23,6 @@ amp_diffabund(data, group)
 
 \item{verbose}{(\emph{Logical}) Whether to print status messages during the test calculations. (\emph{Default: } \code{TRUE})}
 
-\item{signif_plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
-
 \item{plot_nshow}{The amount of the most significant results to display in the most-significant plot. (\emph{default:} \code{10})}
 
 \item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
@@ -38,7 +36,7 @@ amp_diffabund(data, group)
 \item{tax_empty}{How to show OTUs without taxonomic information. One of the following:
 \itemize{
    \item \code{"remove"}: Remove OTUs without taxonomic information.
-   \item \code{"best"}: (\emph{default}) Use the best classification possible. 
+   \item \code{"best"}: (\emph{default}) Use the best classification possible.
    \item \code{"OTU"}: Display the OTU name.
    }}
 
@@ -54,7 +52,7 @@ A list with multiple elements:
     \item \code{"plot_MA"}: MA-plot
     \item \code{"plot_MA_plotly"}: Interactive \code{plotly} plot of \code{MA-plot} with custom hover information.
     \item \code{"plot_signif"}: Abundance plot with taxa with the n most significant p-value (below the threshold), where n is set by \code{plot_nshow}.
-    \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information. 
+    \item \code{"plot_signif_plotly"}: Interactive \code{plotly} plot of \code{plot_signif} with custom hover information.
   }
 }
 \description{
@@ -69,7 +67,7 @@ d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinoba
 results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
 #Show plots
-results$plot_signif
+results$plot_signif_point
 results$plot_MA
 
 #Or show raw results
