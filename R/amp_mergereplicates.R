@@ -8,7 +8,7 @@
 #' @return An object of class \code{ampvis2}
 #'
 #' @importFrom magrittr %>%
-#' @importFrom rlang enquo
+#' @importFrom rlang enquo syms !!!
 #' @importFrom dplyr group_by summarise_at bind_rows
 #' @importFrom tibble column_to_rownames
 #' @export
