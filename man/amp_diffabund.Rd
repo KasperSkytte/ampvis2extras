@@ -23,6 +23,8 @@ amp_diffabund(data, group)
 
 \item{verbose}{(\emph{Logical}) Whether to print status messages during the test calculations. (\emph{Default: } \code{TRUE})}
 
+\item{signif_plot_type}{Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})}
+
 \item{plot_nshow}{The amount of the most significant results to display in the most-significant plot. (\emph{default:} \code{10})}
 
 \item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
@@ -67,7 +69,7 @@ d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinoba
 results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
 #Show plots
-results$plot_signif_point
+results$plot_signif
 results$plot_MA
 
 #Or show raw results

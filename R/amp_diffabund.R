@@ -10,6 +10,7 @@
 #' @param fitType The type of fitting of dispersions to the mean intensity, either \code{"parametric"}, \code{"local"}, or \code{"mean"}. (\emph{default:} \code{"parametric"})
 #' @param verbose (\emph{Logical}) Whether to print status messages during the test calculations. (\emph{Default: } \code{TRUE})
 #' @param num_threads The number of threads to use for parallelization by the \href{https://www.bioconductor.org/packages/devel/bioc/vignettes/BiocParallel/inst/doc/Introduction_To_BiocParallel.pdf}{\code{BiocParallel}} backend. Parallelization is not supported on windows machines. (\emph{default:} \code{1})
+#' @param signif_plot_type Either \code{"boxplot"} or \code{"point"}. (\emph{default:} \code{"point"})
 #' @param signif_thrh Significance threshold. (\emph{default:} \code{0.01})
 #' @param fold Log2fold filter for displaying significant results. (\emph{default:} \code{0})
 #' @param tax_aggregate The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})
@@ -58,7 +59,7 @@
 #' results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 #'
 #' #Show plots
-#' results$plot_signif_point
+#' results$plot_signif
 #' results$plot_MA
 #'
 #' #Or show raw results
@@ -74,6 +75,7 @@ amp_diffabund <- function(data,
                           signif_thrh = 0.01,
                           fold = 0,
                           verbose = TRUE,
+                          signif_plot_type = "point",
                           plot_nshow = 10L,
                           plot_point_size = 2,
                           tax_aggregate = "OTU",
@@ -101,7 +103,7 @@ amp_diffabund <- function(data,
   ## Extract the data into separate objects for readability
   abund <- data[["abund"]]
   tax <- data[["tax"]]
-  metadata <- data[["metadata"]]
+  metadata <- dplyr::mutate_at(data[["metadata"]], vars(1), as.character)
 
   # fix group factors to be syntactically valid
   metadata[,group] %<>% stringr::str_replace_all("[^[:alnum:]_.]", "_") %>% as.factor()
@@ -119,17 +121,17 @@ amp_diffabund <- function(data,
 
   # Aggregate to a specific taxonomic level
   abund3 <- cbind.data.frame(Display = tax[,"Display"], abund) %>%
-    tidyr::gather(key = Sample, value = Abundance, -Display) %>% as.data.table()
+    tidyr::gather(key = Sample, value = Abundance, -Display) %>% data.table::as.data.table()
 
   abund3 <- abund3[, "sum":=sum(Abundance), by=list(Display, Sample)] %>%
-    setkey(Display, Sample) %>%
+    data.table::setkey(Display, Sample) %>%
     as.data.frame() %>%
-    select(-Abundance) %>%
+    dplyr::select(-Abundance) %>%
     unique()
 
   ##### Convert to DESeq2 format and test for significant differential abundance #####
   abund4 <- tidyr::spread(data = abund3, key = Sample, value = sum) %>%
-    column_to_rownames("Display")
+    tibble::column_to_rownames("Display")
   abund4 <- abund4[,metadata[[1]]]
 
   if(isTRUE(verbose))
@@ -150,12 +152,12 @@ amp_diffabund <- function(data,
                         cooksCutoff = FALSE
                         #,parallel = if(num_threads > 1L) TRUE else FALSE
                         #,BPPARAM = BiocParallel::MulticoreParam(num_threads)
-                        )
+  )
 
   res_tax = data.frame(as.data.frame(res), Tax = rownames(res))
 
-  res_tax_sig = filter(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
-    arrange(padj)
+  res_tax_sig = dplyr::filter(res_tax, padj < signif_thrh & fold < abs(log2FoldChange)) %>%
+    dplyr::arrange(padj)
 
   if(isTRUE(verbose))
     message("---------------------------------\nDone. Generating plots.")
@@ -198,14 +200,14 @@ amp_diffabund <- function(data,
     unique()
 
   ##### data for significance plot #####
-  abund5 <- mutate(abund4, Tax = rownames(abund4)) %>%
+  abund5 <- dplyr::mutate(abund4, Tax = rownames(abund4)) %>%
     tidyr::gather(key=Sample, value=Count, -Tax) %>%
-    group_by(Sample) %>%
-    mutate(Abundance = Count / sum(Count)*100)
+    dplyr::group_by(Sample) %>%
+    dplyr::mutate(Abundance = Count / sum(Count)*100)
 
   abund6 <- suppressWarnings(dplyr::inner_join(abund5, res_tax, by = "Tax")) %>%
-    filter(padj < signif_thrh & fold < abs(log2FoldChange)) %>%
-    arrange(padj)
+    dplyr::filter(padj < signif_thrh & fold < abs(log2FoldChange)) %>%
+    dplyr::arrange(padj)
 
   if(nrow(abund6) == 0){stop("No significant differences found.", call. = FALSE)}
 
@@ -217,64 +219,60 @@ amp_diffabund <- function(data,
   metadata <- metadata[c("Sample",group)]
   colnames(metadata)[2] <- "Group"
 
-  signif_data <- signif_data_complete <- dplyr::inner_join(x = abund6, y = metadata, by = "Sample") %>%
-    group_by(Sample) %>%
-    arrange(padj)
+  point_df <- dplyr::inner_join(x = abund6, y = metadata, by = "Sample") %>%
+    dplyr::group_by(Sample) %>%
+    dplyr::arrange(padj)
 
-  colnames(signif_data)[12] <- group
+  colnames(point_df)[12] <- group
 
-  if(!is.numeric(plot_nshow)) {
-    if(!identical(as.numeric(plot_nshow%%1L), as.numeric(0)) && !plot_nshow >= 0L)
-    stop("plot_nshow must be a positive whole number or \"all\".", call. = FALSE)
-  } else if(identical(tolower(plot_nshow), "all")) {
-    plot_nshow <- nrow(abund6)
-  } else if(plot_nshow > nrow(abund6))
-    plot_nshow <- nrow(abund6)
-  signif_data <- dplyr::filter(signif_data, Tax %in% as.character(unique(signif_data$Tax))[1:plot_nshow])
-  signif_data$Tax <- factor(signif_data$Tax, levels = rev(as.character(unique(signif_data$Tax))[1:plot_nshow]))
+  if(!is.null(plot_nshow)){
+    if(plot_nshow > nrow(abund6)){plot_nshow <- nrow(abund6)}
+    point_df <- dplyr::filter(point_df, Tax %in% as.character(unique(point_df$Tax))[1:plot_nshow])
+  }
+
+  point_df$Tax <- factor(point_df$Tax, levels = rev(as.character(unique(point_df$Tax))[1:plot_nshow]))
 
   ##### significance plot #####
-  signifplot <- ggplot(data = signif_data, aes_string(x = "Tax", y = "Abundance", color = group)) +
+  signifplot <- ggplot(data = point_df, aes_string(x = "Tax", y = "Abundance", color = group)) +
     labs(x = "", y = "Read Abundance (%)") +
     coord_flip() +
     theme_classic() +
     theme(panel.grid.major.x = element_line(color = "grey90"),
           panel.grid.major.y = element_line(color = "grey90"))
 
-  signifplot_point <- signifplot +
-    geom_jitter(position = position_jitter(width = .05), size = plot_point_size)
-  signifplot_bp <- signifplot +
-    geom_boxplot(outlier.size=1)
+  if(signif_plot_type == "point") {
+    signifplot <- signifplot + geom_jitter(position = position_jitter(width = .05), size = plot_point_size)
+  } else if(signif_plot_type == "boxplot") {
+    signifplot <- signifplot + geom_boxplot(outlier.size=1)
+  }
 
   ##### return results #####
   clean_res0 <- suppressWarnings(dplyr::inner_join(abund5, res_tax, by = "Tax")) %>%
     dplyr::inner_join(y = metadata, by = "Sample") %>%
-    group_by(Sample) %>%
-    arrange(padj)
+    dplyr::group_by(Sample) %>%
+    dplyr::arrange(padj)
 
   colnames(clean_res0)[12] <- "Group"
 
-  cr <- mutate(clean_res0,
-               padj = signif(padj, 2),
-               Log2FC = signif(log2FoldChange, 2),
-               Taxonomy = Tax) %>%
-    group_by(Group, Taxonomy, padj, Log2FC) %>%
-    summarise(Avg = round(mean(Abundance), 3)) %>%
+  cr <- dplyr::mutate(clean_res0,
+                      padj = signif(padj, 2),
+                      Log2FC = signif(log2FoldChange, 2),
+                      Taxonomy = Tax) %>%
+    dplyr::group_by(Group, Taxonomy, padj, Log2FC) %>%
+    dplyr::summarise(Avg = round(mean(Abundance), 3)) %>%
     tidyr::spread(key = Group, value = Avg) %>%
-    arrange(padj)
+    dplyr::arrange(padj)
 
   plot_MA_plotly <- plotly::ggplotly(MAplot +
                                        suppressWarnings(geom_point(size = plot_point_size-1,
                                                                    aes(text = data_plotly))), tooltip = "text")
   out <- list(DESeq2_results = res,
               DESeq2_results_signif = res_tax_sig,
-              signif_plotdata = signif_data,
+              signif_plotdata = point_df,
               Clean_results = cr,
               plot_MA = MAplot + geom_point(size = plot_point_size),
               plot_MA_plotly = plot_MA_plotly,
-              plot_signif_point = signifplot_point,
-              plot_signif_point_plotly = plotly::ggplotly(signifplot_point),
-              plot_signif_bp = signifplot_bp,
-              plot_signif_bp_plotly = plotly::ggplotly(signifplot_bp))
-  return(out)
+              plot_signif = signifplot,
+              plot_signif_plotly = plotly::ggplotly(signifplot))
+  invisible(out)
 }
