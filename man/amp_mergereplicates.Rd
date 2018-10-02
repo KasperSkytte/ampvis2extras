@@ -28,8 +28,9 @@ d$metadata
 d$metadata$group <- c("group1", "group1", "group2", "group2", "group2", "group3", "group4", "group4")
 d$metadata
 dmerged <- amp_mergereplicates(d,
-                               merge_var = "group",
-                               merge_fun = "mean",
-                               round = "up")
+  merge_var = "group",
+  merge_fun = "mean",
+  round = "up"
+)
 dmerged
 }
