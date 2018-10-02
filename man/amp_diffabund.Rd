@@ -43,6 +43,8 @@ amp_diffabund(data, group)
    }}
 
 \item{adjust_zero}{Keep 0 abundances in ggplot2 median calculations by adding a small constant to these.}
+
+\item{...}{Additional arguments passed on to \code{\link[DESeq2]{DESeq}}.}
 }
 \value{
 A list with multiple elements:
@@ -61,20 +63,19 @@ A list with multiple elements:
 Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. Returns a list containing test results as well as two different plots; an MA-plot and an abundance plot with taxa with the most significant p-value (below the threshold).
 }
 \examples{
-#Load example data
+# Load example data
 data("AalborgWWTPs")
 
-#Subset to a few taxa, save the results in an object
+# Subset to a few taxa, save the results in an object
 d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
 results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
 
-#Show plots
+# Show plots
 results$plot_signif
 results$plot_MA
 
-#Or show raw results
+# Or show raw results
 results$Clean_results
-
 }
 \author{
 Kasper Skytte Andersen \email{kasperskytteandersen@gmail.com}
