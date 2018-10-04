@@ -52,6 +52,7 @@
 #'
 #' @export
 #' @examples
+#' library(ampvis2extras)
 #' # Load example data
 #' data("AalborgWWTPs")
 #' 
@@ -90,7 +91,7 @@ amp_diffabund <- function(data,
   }
 
   ## Clean up the taxonomy
-  data <- amp_rename(
+  data <- ampvis2:::amp_rename(
     data = data,
     tax_class = tax_class,
     tax_empty = tax_empty,

@@ -63,6 +63,7 @@ A list with multiple elements:
 Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. Returns a list containing test results as well as two different plots; an MA-plot and an abundance plot with taxa with the most significant p-value (below the threshold).
 }
 \examples{
+library(ampvis2extras)
 # Load example data
 data("AalborgWWTPs")
 

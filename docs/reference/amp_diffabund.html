@@ -199,17 +199,36 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>ampvis2extras</span>)
+<span class='co'># Load example data</span>
 <span class='fu'>data</span>(<span class='st'>"AalborgWWTPs"</span>)
 
 <span class='co'># Subset to a few taxa, save the results in an object</span>
 <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"p__Chloroflexi"</span>, <span class='st'>"p__Actinobacteria"</span>))</div><div class='output co'>#&gt; <span class='message'>7584 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 9430 OTUs</span>
-#&gt; <span class='message'>After: 1846 OTUs</span></div><div class='input'><span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_diffabund</span>(<span class='no'>d</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in amp_rename(data = data, tax_class = tax_class, tax_empty = tax_empty,     tax_level = tax_aggregate): could not find function "amp_rename"</span></div><div class='input'>
+#&gt; <span class='message'>After: 1846 OTUs</span></div><div class='input'><span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_diffabund</span>(<span class='no'>d</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)</div><div class='output co'>#&gt; <span class='message'>Running DESeq2 differential abundance test. This may take a while depending on the size of the data. </span>
+#&gt; <span class='message'>---------------------------------</span></div><div class='output co'>#&gt; <span class='message'>estimating size factors</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>gene-wise dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>mean-dispersion relationship</span></div><div class='output co'>#&gt; <span class='message'>final dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>-- replacing outliers and refitting for 7 genes</span>
+#&gt; <span class='message'>-- DESeq argument 'minReplicatesForReplace' = 7 </span>
+#&gt; <span class='message'>-- original counts are preserved in counts(dds)</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>---------------------------------</span>
+#&gt; <span class='message'>Done. Generating plots.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='input'>
 <span class='co'># Show plots</span>
-<span class='no'>results</span>$<span class='no'>plot_signif</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'results' not found</span></div><div class='input'><span class='no'>results</span>$<span class='no'>plot_MA</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'results' not found</span></div><div class='input'>
+<span class='no'>results</span>$<span class='no'>plot_signif</span></div><div class='img'><img src='amp_diffabund-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>results</span>$<span class='no'>plot_MA</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='img'><img src='amp_diffabund-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or show raw results</span>
-<span class='no'>results</span>$<span class='no'>Clean_results</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'results' not found</span></div></pre>
+<span class='no'>results</span>$<span class='no'>Clean_results</span></div><div class='output co'>#&gt; [38;5;246m# A tibble: 1,056 x 5[39m
+#&gt; [38;5;246m# Groups:   Taxonomy, padj [1,056][39m
+#&gt;    Taxonomy                         padj Log2FC Aalborg_East Aalborg_West
+#&gt;    [3m[38;5;246m&lt;chr&gt;[39m[23m                           [3m[38;5;246m&lt;dbl&gt;[39m[23m  [3m[38;5;246m&lt;dbl&gt;[39m[23m        [3m[38;5;246m&lt;dbl&gt;[39m[23m        [3m[38;5;246m&lt;dbl&gt;[39m[23m
+#&gt; [38;5;250m 1[39m o__AKYG1722_OTU_154          2.10[38;5;246me[39m[31m-83[39m   11          0.001        2.73 
+#&gt; [38;5;250m 2[39m f__Caldilineaceae_OTU_330    5.50[38;5;246me[39m[31m-79[39m    3.6        0.039        0.353
+#&gt; [38;5;250m 3[39m f__Caldilineaceae_OTU_322    1.70[38;5;246me[39m[31m-42[39m    6.7        0.002        0.256
+#&gt; [38;5;250m 4[39m f__mle1-48_OTU_467           2.20[38;5;246me[39m[31m-34[39m    2.9        0.027        0.136
+#&gt; [38;5;250m 5[39m f__Microbacteriaceae_OTU_640 3.40[38;5;246me[39m[31m-33[39m   -[31m3[39m          0.178        0.015
+#&gt; [38;5;250m 6[39m o__Micrococcales_OTU_10052   1.00[38;5;246me[39m[31m-32[39m    2.9        0.049        0.246
+#&gt; [38;5;250m 7[39m Actinomyces                  3.20[38;5;246me[39m[31m-32[39m   -[31m1[39m[31m.[39m[31m8[39m        0.734        0.146
+#&gt; [38;5;250m 8[39m Illumatobacter               5.80[38;5;246me[39m[31m-29[39m    2.5        0.029        0.114
+#&gt; [38;5;250m 9[39m c__Actinobacteria_OTU_297    7.70[38;5;246me[39m[31m-28[39m    4.4        0.011        0.186
+#&gt; [38;5;250m10[39m f__Caldilineaceae_OTU_1753   1.10[38;5;246me[39m[31m-27[39m    5.4        0            0.062
+#&gt; [38;5;246m# ... with 1,046 more rows[39m</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
