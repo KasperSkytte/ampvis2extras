@@ -56,7 +56,7 @@ amp_mergereplicates <- function(data,
   # merge samples based on the groups
   abund_merged <- tempabund[which(tempabund[, 1] %in% groups), ] %>%
     dplyr::group_by(!!!syms(nameoffirstcol)) %>%
-    dplyr::summarise_at(.vars = 2:ncol(.), .funs = merge_fun)
+    dplyr::summarise_all(.vars = list(2:ncol(.)), .funs = merge_fun)
   # combine the merged samples and unmerged samples if any
   if (any(!data$metadata[, merge_var] %in% groups)) {
     newabund <- dplyr::bind_rows(abund_merged, tempabund[which(!tempabund[, 1] %in% groups), ])
@@ -81,7 +81,7 @@ amp_mergereplicates <- function(data,
     as.data.frame()
   # make new metadata keeping only the first row of each sample group
   merge_var_id <- which(colnames(out$metadata) %in% merge_var)
-  out$metadata <- out$metadata[!duplicated(out$metadata[,merge_var_id]), -merge_var_id]
+  out$metadata <- out$metadata[!duplicated(out$metadata[, merge_var_id]), -merge_var_id]
   out$metadata[, 1] <- colnames(out$abund)
   rownames(out$metadata) <- out$metadata[, 1]
   return(out)

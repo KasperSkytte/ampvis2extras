@@ -55,15 +55,15 @@
 #' library(ampvis2extras)
 #' # Load example data
 #' data("AalborgWWTPs")
-#' 
+#'
 #' # Subset to a few taxa, save the results in an object
 #' d <- amp_subset_taxa(AalborgWWTPs, tax_vector = c("p__Chloroflexi", "p__Actinobacteria"))
 #' results <- amp_diffabund(d, group = "Plant", tax_aggregate = "Genus")
-#' 
+#'
 #' # Show plots
 #' results$plot_signif
 #' results$plot_MA
-#' 
+#'
 #' # Or show raw results
 #' results$Clean_results
 #' @author Kasper Skytte Andersen \email{kasperskytteandersen@@gmail.com}
@@ -217,7 +217,7 @@ amp_diffabund <- function(data,
   data_plotly <- data$tax %>%
     .[which(.[, which(colnames(.) == lowestlevel)] %in% unlist(stringr::str_split(res_tax$Tax, "; "))), ] %>%
     .[, 1:which(colnames(.) == lowestlevel)] %>%
-    purrr::imap(~paste(.y, .x, sep = ": ")) %>%
+    purrr::imap(~ paste(.y, .x, sep = ": ")) %>%
     as.data.frame() %>%
     tidyr::unite("test", sep = "<br>") %>%
     unlist(use.names = FALSE) %>%
