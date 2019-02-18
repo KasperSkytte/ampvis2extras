@@ -4,7 +4,7 @@
 \alias{amp_mergereplicates}
 \title{Merge replicate samples}
 \usage{
-amp_mergereplicates(data, merge_var, merge_fun = "mean", round = "up")
+amp_mergereplicates(data, merge_var, merge_fun = "mean", round = NULL)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
@@ -13,7 +13,7 @@ amp_mergereplicates(data, merge_var, merge_fun = "mean", round = "up")
 
 \item{merge_fun}{Name of the function used to merge the samples, fx \code{mean} or \code{sum}. (\emph{default:} \code{"mean"})}
 
-\item{round}{Read counts are whole numbers, so if any decimals after merging they must be rounded either \code{"up"} or \code{"down"}. (\emph{default:} \code{"up"})}
+\item{round}{If the read counts have not been normalised, read counts are integers, so if any decimals after merging they must be rounded either \code{"up"} or \code{"down"}. Make sure this makes sense if the read counts have been normalised, as it may result in 0's, 1's, and 2's everywhere. (\emph{default:} \code{NULL})}
 }
 \value{
 An object of class \code{ampvis2}

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2extras</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>amp_mergereplicates</span>(<span class='no'>data</span>, <span class='no'>merge_var</span>, <span class='kw'>merge_fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>round</span> <span class='kw'>=</span> <span class='st'>"up"</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_mergereplicates</span>(<span class='no'>data</span>, <span class='no'>merge_var</span>, <span class='kw'>merge_fun</span> <span class='kw'>=</span> <span class='st'>"mean"</span>, <span class='kw'>round</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -124,7 +124,7 @@
     </tr>
     <tr>
       <th>round</th>
-      <td><p>Read counts are whole numbers, so if any decimals after merging they must be rounded either <code>"up"</code> or <code>"down"</code>. (<em>default:</em> <code>"up"</code>)</p></td>
+      <td><p>If the read counts have not been normalised, read counts are integers, so if any decimals after merging they must be rounded either <code>"up"</code> or <code>"down"</code>. Make sure this makes sense if the read counts have been normalised, as it may result in 0's, 1's, and 2's everywhere. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     </table>
     
