@@ -4,8 +4,13 @@
 \alias{amp_betadiv}
 \title{Beta-diversity plot}
 \usage{
-amp_betadiv(data, distmeasure = "bray", label_by = NULL,
-  show_values = TRUE, values_size = 3)
+amp_betadiv(
+  data,
+  distmeasure = "bray",
+  label_by = NULL,
+  show_values = TRUE,
+  values_size = 3
+)
 }
 \arguments{
 \item{data}{(\emph{required}) Data list as loaded with \code{amp_load()}.}
