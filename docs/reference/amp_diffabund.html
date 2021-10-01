@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2extras</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,7 +112,7 @@
     <p>Tests if there is a significant difference in abundances between samples or groups hereof based on selected conditions. Returns a list containing test results as well as two different plots; an MA-plot and an abundance plot with taxa with the most significant p-value (below the threshold).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_diffabund</span>(<span class='no'>data</span>, <span class='no'>group</span>)</pre>
+    <pre class="usage"><span class='fu'>amp_diffabund</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>group</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,11 +163,11 @@
     </tr>
     <tr>
       <th>tax_aggregate</th>
-      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"Phylum"</code>)</p></td>
+      <td><p>The taxonomic level to aggregate the OTUs. (<em>default:</em> <code>"OTU"</code>)</p></td>
     </tr>
     <tr>
       <th>tax_add</th>
-      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>"none"</code>)</p></td>
+      <td><p>Additional taxonomic level(s) to display, e.g. <code>"Phylum"</code>. (<em>default:</em> <code>NULL</code>)</p></td>
     </tr>
     <tr>
       <th>tax_class</th>
@@ -204,38 +204,47 @@
 <li><p><code>"plot_signif_plotly"</code>: Interactive <code>plotly</code> plot of <code>plot_signif</code> with custom hover information.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Kasper Skytte Andersen <a href='mailto:kasperskytteandersen@gmail.com'>kasperskytteandersen@gmail.com</a></p>
+<p>Mads Albertsen <a href='mailto:MadsAlbertsen85@gmail.com'>MadsAlbertsen85@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ampvis2extras</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>ampvis2extras</span><span class='op'>)</span>
 <span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"AalborgWWTPs"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"AalborgWWTPs"</span><span class='op'>)</span>
 
 <span class='co'># Subset to a few taxa, save the results in an object</span>
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_subset_taxa</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>tax_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"p__Chloroflexi"</span>, <span class='st'>"p__Actinobacteria"</span>))</div><div class='output co'>#&gt; <span class='message'>7584 OTUs have been filtered </span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>amp_subset_taxa</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>, tax_vector <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"p__Chloroflexi"</span>, <span class='st'>"p__Actinobacteria"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>7584 OTUs have been filtered </span>
 #&gt; <span class='message'>Before: 9430 OTUs</span>
-#&gt; <span class='message'>After: 1846 OTUs</span></div><div class='input'><span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>amp_diffabund</span>(<span class='no'>d</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Plant"</span>, <span class='kw'>tax_aggregate</span> <span class='kw'>=</span> <span class='st'>"Genus"</span>)</div><div class='output co'>#&gt; <span class='message'>Running DESeq2 differential abundance test. This may take a while depending on the size of the data. </span>
-#&gt; <span class='message'>---------------------------------</span></div><div class='output co'>#&gt; <span class='message'>estimating size factors</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>gene-wise dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>mean-dispersion relationship</span></div><div class='output co'>#&gt; <span class='message'>final dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>-- replacing outliers and refitting for 7 genes</span>
+#&gt; <span class='message'>After: 1846 OTUs</span></div><div class='input'><span class='va'>results</span> <span class='op'>&lt;-</span> <span class='fu'>amp_diffabund</span><span class='op'>(</span><span class='va'>d</span>, group <span class='op'>=</span> <span class='st'>"Plant"</span>, tax_aggregate <span class='op'>=</span> <span class='st'>"Genus"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Running DESeq2 differential abundance test. This may take a while depending on the size of the data. </span>
+#&gt; <span class='message'>---------------------------------</span></div><div class='output co'>#&gt; <span class='message'>estimating size factors</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>gene-wise dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>mean-dispersion relationship</span></div><div class='output co'>#&gt; <span class='message'>final dispersion estimates</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>-- replacing outliers and refitting for 6 genes</span>
 #&gt; <span class='message'>-- DESeq argument 'minReplicatesForReplace' = 7 </span>
 #&gt; <span class='message'>-- original counts are preserved in counts(dds)</span></div><div class='output co'>#&gt; <span class='message'>estimating dispersions</span></div><div class='output co'>#&gt; <span class='message'>fitting model and testing</span></div><div class='output co'>#&gt; <span class='message'>---------------------------------</span>
 #&gt; <span class='message'>Done. Generating plots.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='input'>
 <span class='co'># Show plots</span>
-<span class='no'>results</span>$<span class='no'>plot_signif</span></div><div class='img'><img src='amp_diffabund-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>results</span>$<span class='no'>plot_MA</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='img'><img src='amp_diffabund-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>results</span><span class='op'>$</span><span class='va'>plot_signif</span>
+</div><div class='img'><img src='amp_diffabund-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>results</span><span class='op'>$</span><span class='va'>plot_MA</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Transformation introduced infinite values in continuous x-axis</span></div><div class='img'><img src='amp_diffabund-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Or show raw results</span>
-<span class='no'>results</span>$<span class='no'>Clean_results</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1,056 x 5</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   Taxonomy, padj [1,056]</span><span>
-#&gt;    Taxonomy                         padj Log2FC Aalborg_East Aalborg_West
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> o__AKYG1722_OTU_154          2.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-83</span><span>   11          0.001        2.73 
-#&gt; </span><span style='color: #555555;'> 2</span><span> f__Caldilineaceae_OTU_330    5.50</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-79</span><span>    3.6        0.039        0.353
-#&gt; </span><span style='color: #555555;'> 3</span><span> f__Caldilineaceae_OTU_322    1.70</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-42</span><span>    6.7        0.002        0.256
-#&gt; </span><span style='color: #555555;'> 4</span><span> f__mle1-48_OTU_467           2.20</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-34</span><span>    2.9        0.027        0.136
-#&gt; </span><span style='color: #555555;'> 5</span><span> f__Microbacteriaceae_OTU_640 3.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-33</span><span>   -</span><span style='color: #BB0000;'>3</span><span>          0.178        0.015
-#&gt; </span><span style='color: #555555;'> 6</span><span> o__Micrococcales_OTU_10052   1.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-32</span><span>    2.9        0.049        0.246
-#&gt; </span><span style='color: #555555;'> 7</span><span> Actinomyces                  3.20</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-32</span><span>   -</span><span style='color: #BB0000;'>1.8</span><span>        0.734        0.146
-#&gt; </span><span style='color: #555555;'> 8</span><span> Illumatobacter               5.80</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-29</span><span>    2.5        0.029        0.114
-#&gt; </span><span style='color: #555555;'> 9</span><span> c__Actinobacteria_OTU_297    7.70</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-28</span><span>    4.4        0.011        0.186
-#&gt; </span><span style='color: #555555;'>10</span><span> f__Caldilineaceae_OTU_1753   1.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-27</span><span>    5.4        0            0.062
-#&gt; </span><span style='color: #555555;'># … with 1,046 more rows</span><span></div></span></pre>
+<span class='va'>results</span><span class='op'>$</span><span class='va'>Clean_results</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 810 × 5</span>
+#&gt; <span style='color: #949494;'># Groups:   Taxonomy, padj [810]</span>
+#&gt;    Taxonomy                        padj Log2FC Aalborg_East Aalborg_West
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> o__AKYG1722_OTU_154          8.6<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-83</span>   11          0.001        2.73 
+#&gt; <span style='color: #BCBCBC;'> 2</span> f__Microbacteriaceae_OTU_640 2.1<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-34</span>   -<span style='color: #BB0000;'>3</span>          0.178        0.015
+#&gt; <span style='color: #BCBCBC;'> 3</span> Actinomyces                  2.6<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-33</span>   -<span style='color: #BB0000;'>1.8</span>        0.734        0.146
+#&gt; <span style='color: #BCBCBC;'> 4</span> f__mle1-48_OTU_467           1.4<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-32</span>    2.8        0.027        0.136
+#&gt; <span style='color: #BCBCBC;'> 5</span> o__Micrococcales_OTU_10052   3.6<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-31</span>    2.8        0.049        0.246
+#&gt; <span style='color: #BCBCBC;'> 6</span> Illumatobacter               1.1<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-27</span>    2.4        0.029        0.114
+#&gt; <span style='color: #BCBCBC;'> 7</span> c__Actinobacteria_OTU_297    2  <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-27</span>    4.4        0.011        0.186
+#&gt; <span style='color: #BCBCBC;'> 8</span> o__419_OTU_401               6.7<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-27</span>   -<span style='color: #BB0000;'>5.7</span>        0.133        0.001
+#&gt; <span style='color: #BCBCBC;'> 9</span> c__SJA-15_OTU_926            4.4<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-26</span>    4.3        0.013        0.16 
+#&gt; <span style='color: #BCBCBC;'>10</span> f__Anaerolineaceae_OTU_1308  4  <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-23</span>    3.9        0.008        0.08 
+#&gt; <span style='color: #949494;'># … with 800 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -251,7 +260,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

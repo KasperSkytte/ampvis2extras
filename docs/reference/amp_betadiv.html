@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ampvis2extras</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,13 +112,13 @@
     <p>Beta-diversity plot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>amp_betadiv</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>distmeasure</span> <span class='kw'>=</span> <span class='st'>"bray"</span>,
-  <span class='kw'>label_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>values_size</span> <span class='kw'>=</span> <span class='fl'>3</span>
-)</pre>
+    <pre class="usage"><span class='fu'>amp_betadiv</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  distmeasure <span class='op'>=</span> <span class='st'>"bray"</span>,
+  label_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show_values <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  values_size <span class='op'>=</span> <span class='fl'>3</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,7 +150,8 @@
     <p>A ggplot2 object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>amp_betadiv</span>(<span class='no'>AalborgWWTPs</span>, <span class='kw'>show_values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='amp_betadiv-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>amp_betadiv</span><span class='op'>(</span><span class='va'>AalborgWWTPs</span>, show_values <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='amp_betadiv-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -166,7 +167,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
