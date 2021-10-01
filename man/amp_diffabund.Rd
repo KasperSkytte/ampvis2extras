@@ -29,9 +29,9 @@ amp_diffabund(data, group)
 
 \item{plot_point_size}{The size of the plotted points. (\emph{default:} \code{2})}
 
-\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"Phylum"})}
+\item{tax_aggregate}{The taxonomic level to aggregate the OTUs. (\emph{default:} \code{"OTU"})}
 
-\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{"none"})}
+\item{tax_add}{Additional taxonomic level(s) to display, e.g. \code{"Phylum"}. (\emph{default:} \code{NULL})}
 
 \item{tax_class}{Converts a specific phylum to class level instead, e.g. \code{"p__Proteobacteria"}.}
 

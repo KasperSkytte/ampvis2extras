@@ -11,6 +11,7 @@
 #'
 #' @import ggplot2
 #' @importFrom tidyr gather
+#' @importFrom vegan vegdist
 #'
 #' @examples
 #' amp_betadiv(AalborgWWTPs, show_values = FALSE)
@@ -19,7 +20,7 @@ amp_betadiv <- function(data,
                         label_by = NULL,
                         show_values = TRUE,
                         values_size = 3) {
-  distcoeffs <- as.matrix(vegan::vegdist(t(data$abund), method = distmeasure))
+  distcoeffs <- as.matrix(vegdist(t(data$abund), method = distmeasure))
   distcoeffs[upper.tri(distcoeffs)] <- NA
   if (!is.null(label_by)) {
     labels <- apply(data$metadata[, c(1, which(colnames(data$metadata) %in% label_by))], 1, paste0, collapse = "; ")
@@ -28,7 +29,7 @@ amp_betadiv <- function(data,
   }
   distcoeffs <- data.frame(label = labels, distcoeffs, check.names = FALSE)
   levels <- as.factor(distcoeffs[["label"]])
-  distcoeffs <- tidyr::gather(distcoeffs,
+  distcoeffs <- gather(distcoeffs,
     key = "y",
     value = "coeff",
     -label,
