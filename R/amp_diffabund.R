@@ -294,11 +294,18 @@ amp_diffabund <- function(data,
     spread(key = Group, value = Avg) %>%
     arrange(padj)
 
-  plot_MA_plotly <- plotly::ggplotly(MAplot +
-    suppressWarnings(geom_point(
-      size = plot_point_size - 1,
-      aes(text = data_plotly)
-    )), tooltip = "text")
+  plot_MA_plotly <- ggplotly(MAplot + {
+    if (lowestlevel != "OTU") {
+      # plotly labels removed when analysis is not done on OTU level. Feel free to make a PR with a fix
+      geom_point(size = plot_point_size - 1)
+    } else {
+      geom_point(
+        size = plot_point_size - 1,
+        aes(text = data_plotly)
+      )
+    }
+  }, tooltip = "all")
+
   out <- list(
     DESeq2_results = res,
     DESeq2_results_signif = res_tax_sig,

@@ -2,29 +2,30 @@ Package: ampvis2extras
 Type: Package
 Title: Extra (experimental) functions for the ampvis2 package
 Description: Functions that are rarely used, outdated, experimental, or specific for certain cases of analysis with ampvis2. Mainly functions using Bioconductor packages.
-Version: 0.1.5
+Version: 0.1.6
 Date: 2017-02-19
 Authors@R: c(person("Mads", "Albertsen", role = c("aut", "cre"), email = "MadsAlbertsen85@gmail.com"), person(c("Kasper", "Skytte"), "Andersen", role = c("aut"), email = "ksa@bio.aau.dk"), person(c("Rasmus", "Hansen"), "Kirkegaard", role = c("ctb"), email = "rhk@bio.aau.dk"))
 License: AGPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: 
-  R (>= 3.5.0),
-  ampvis2 (>= 2.5.0)
+  R (>= 4.0.0),
+  ampvis2 (>= 2.7.0)
 Imports:
-  tidyverse,
+  data.table,
+  DESeq2,
   dplyr,
   ggplot2,
-  tidyr,
-  stringr,
-  purrr,
   magrittr,
-  tibble,
-  rlang,
-  DESeq2,
   plotly,
-  data.table
-Remotes: github::MadsAlbertsen/ampvis2
+  purrr,
+  stringr,
+  tibble,
+  tidyr,
+  vegan
+Remotes:
+  github::MadsAlbertsen/ampvis2,
+  bioc::3.13/DESeq2
 Suggests:
   BiocManager
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.2
